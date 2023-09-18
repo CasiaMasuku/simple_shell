@@ -36,7 +36,7 @@ return (-2);
 int _shellcd(inf_x *inf)
 {
 char *a, *direct, buffer[1024];
-int cd_ret;
+int chdir_ret;
 a = getcwd(buffer, 1024);
 if (!a)
 _puts("TODO: >>getcwd failure emsg here<<\n");
@@ -44,10 +44,10 @@ if (!inf->argv[1])
 {
 direct = _getenv(inf, "HOME=");
 if (!direct)
-cd_ret = /* TODO: what should this be? */
-cd((direct = _getenv(inf, "PWD=")) ? direct : "/");
+chdir_ret = /* TODO: what should this be? */
+chdir((direct = _getenv(inf, "PWD=")) ? direct : "/");
 else
-cd_ret = cd(direct);
+chdir_ret = chdir(direct);
 }
 else if (_strcmp(inf->argv[1], "-") == 0)
 {
@@ -58,12 +58,12 @@ _putchar('\n');
 return (1);
 }
 _puts(_getenv(inf, "OLDPWD=")), _putchar('\n');
-cd_ret = /* TODO: what should this be? */
-cd((direct = _getenv(inf, "OLDPWD=")) ? direct : "/");
+chdir_ret = /* TODO: what should this be? */
+chdir((direct = _getenv(inf, "OLDPWD=")) ? direct : "/");
 }
 else
-cd_ret = cd(inf->argv[1]);
-if (cd_ret == -1)
+chdir_ret = chdir(inf->argv[1]);
+if (chdir_ret == -1)
 {
 print_error(inf, "can't cd to ");
 _eputs(inf->argv[1]), _eputchar('\n');
