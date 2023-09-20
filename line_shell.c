@@ -3,12 +3,12 @@
 /**
  * input_buf - buffers chained commands
  * @buf: address of buffer
- * @inf: parameter struct
+ * @info: parameter struct
  * @len: address of len var
  *
  * Return: bytes
  */
-ssize_t input_buf(inf_x *inf, char **buf, size_t *len)
+ssize_t input_buf(info_t *info, char **buf, size_t *len)
 {
 ssize_t q = 0;
 size_t len_p = 0;
@@ -29,12 +29,12 @@ if ((*buf)[q - 1] == '\n')
 (*buf)[q - 1] = '\0';
 q--;
 }
-inf->linecount_flag = 1;
-remove_comments(*buf);
-build_histor_list(inf, *buf, inf->histcount++);
+info->linecount_flag = 1;
+erase_comments(*buf);
+build_hist_list(info, *buf, info->histcount++);
 {
 *len = q;
-inf->cmd_buf = buf;
+info->cmd_buf = buf;
 }
 }
 }
@@ -43,28 +43,28 @@ return (q);
 
 /**
  * get_input - gets a line minus the newline
- * @inf: parameter struct
+ * @info: parameter struct
  *
  * Return: bytes
  */
-ssize_t get_input(inf_x *inf)
+ssize_t get_input(info_t *info)
 {
 static char *buf;
 static size_t a, t, len;
 ssize_t q = 0;
-char **buf_n = &(inf->arg), *n;
+char **buf_n = &(info->arg), *n;
 _putchar(BUF_FLUSH);
-q = input_buf(inf, &buf, &len);
+q = input_buf(info, &buf, &len);
 if (q == -1)
 return (-1);
 if (len)
 {
 t = a;
 n = buf + a;
-check_chain(inf, buf, &t, a, len);
+check_chain(info, buf, &t, a, len);
 while (t < len)
 {
-if (is_chain(inf, buf, &t))
+if (is_chain(info, buf, &t))
 break;
 t++;
 }
@@ -72,7 +72,7 @@ a = t + 1;
 if (a >= len)
 {
 a = len = 0;
-inf->cmd_buf_type = CMD_NORM;
+info->cmd_buf_type = CMD_NORM;
 }
 *buf_n = n;
 return (_strlen(n));
@@ -84,17 +84,17 @@ return (q);
 /**
  * read_buf - reads a buffer
  * @a: size
- * @inf: parameter struct
+ * @info: parameter struct
  * @buf: buffer
  *
  * Return: q
  */
-ssize_t read_buf(inf_x *inf, char *buf, size_t *a)
+ssize_t read_buf(info_t *info, char *buf, size_t *a)
 {
 ssize_t q = 0;
 if (*a)
 return (0);
-q = read(inf->readfd, buf, READ_BUF_SIZE);
+q = read(info->readfd, buf, READ_BUF_SIZE);
 if (q >= 0)
 *a = q;
 return (q);
@@ -103,12 +103,12 @@ return (q);
 /**
  * _getline - gets the next line of input
  * @pnt: address of pointer to buffer
- * @inf: parameter struct
+ * @info: parameter struct
  * @length: size of preallocated ptr buffer
  *
  * Return: c
  */
-int _getline(inf_x *inf, char **pnt, size_t *length)
+int _getline(info_t *info, char **pnt, size_t *length)
 {
 static char buf[READ_BUF_SIZE];
 static size_t a, len;
@@ -120,7 +120,7 @@ if (n && length)
 c = *length;
 if (a == len)
 a = len = 0;
-q = read_buf(inf, buf, &len);
+q = read_buf(info, buf, &len);
 if (q == -1 || (q == 0 && len == 0))
 return (-1);
 s = _strchr(buf + a, '\n');

@@ -65,7 +65,7 @@ while (x)
 _puts(cnvert_number(x->numb, 10, 0));
 _putchar(':');
 _putchar(' ');
-_puts(x->str ? x->string : "(nil)");
+_puts(x->string ? x->string : "(nil)");
 _puts("\n");
 x = x->nxt;
 a++;
@@ -112,3 +112,4 @@ head = head->nxt;
 a++;
 }
 return (-1);
+}

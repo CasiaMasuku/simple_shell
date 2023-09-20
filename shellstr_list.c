@@ -10,7 +10,7 @@
  */
 list_x *add_node(list_x **head, const char *string, int numb)
 {
-list_ *new_head;
+list_x *new_head;
 if (!head)
 return (NULL);
 new_head = malloc(sizeof(list_x));
@@ -67,10 +67,8 @@ node = node->nxt;
 node->nxt = new_node;
 }
 else
-{
 *head = new_node;
 return (new_node);
-}
 }
 
 /**
@@ -145,10 +143,10 @@ head = *head_ptr;
 node = head;
 while (node)
 {
-next_node = node->nxt;
+nxt_node = node->nxt;
 free(node->string);
 free(node);
-node = next_node;
+node = nxt_node;
 }
 *head_ptr = NULL;
 }

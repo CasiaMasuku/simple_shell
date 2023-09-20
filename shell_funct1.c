@@ -29,18 +29,18 @@ return (outcome);
 
 /**
  * print_error - prints an error message
- * @inf: the parameter & return info struct
+ * @info: the parameter & return info struct
  * @estr: contains specified error type
  *
  * Return: 0 if no numbers in string
  */
-void print_error(inf_x *inf, char *estr)
+void print_error(info_t *info, char *estr)
 {
-_eputs(inf->f.name);
+_eputs(info->f_name);
 _eputs(": ");
-print_d(inf->line_count, STDERR_FILENO);
+print_d(info->line_count, STDERR_FILENO);
 _eputs(": ");
-_eputs(inf->argv[0]);
+_eputs(info->argv[0]);
 _eputs(": ");
 _eputs(estr);
 }
@@ -68,7 +68,7 @@ count++;
 else
 _abs_ = input;
 current = _abs_;
-for (a = 1000000000; a > 1;  /= 10)
+for (a = 1000000000; a > 1; a /= 10)
 {
 if (_abs_ / a)
 {

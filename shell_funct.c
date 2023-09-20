@@ -2,13 +2,13 @@
 
 /**
  * interactive - returns true if shell is interactive mode
- * @inf: struct address
+ * @info: struct address
  *
  * Return: 1 if interactive mode
  */
-int interactive(inf_x *inf)
+int interactive(info_t *info)
 {
-return (isatty(STDIN_FILENO) && inf->readfd <= 2);
+return (isatty(STDIN_FILENO) && info->readfd <= 2);
 }
 
 /**
@@ -54,7 +54,7 @@ for (a = 0;  c[a] != '\0' && flag != 2; a++)
 {
 if (c[a] == '-')
 sign *= -1;
-if (c[a] >= '0' && a[a] <= '9')
+if (c[a] >= '0' && c[a] <= '9')
 {
 flag = 1;
 outcome *= 10;

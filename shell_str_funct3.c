@@ -21,7 +21,7 @@ numwords++;
 if (numwords == 0)
 return (NULL);
 c = malloc((1 + numwords) *sizeof(char *));
-if (c !)
+if (!c)
 return (NULL);
 for (a = 0, n = 0; n < numwords; n++)
 {

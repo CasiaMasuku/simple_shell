@@ -2,26 +2,26 @@
 
 /**
  * _shellenv - prints the current environment
- * @inf: Structure consisting potential arguments
+ * @info: Structure consisting potential arguments
  *
  * Return: Always 0
  */
-int _shellenv(inf_x *inf)
+int _shellenv(info_t *info)
 {
-print_list_str(inf->env);
+print_list_str(info->env);
 return (0);
 }
 
 /**
  * _getenv - gets the value of an environ variable
- * @inf: Structure consisting potential arguments
+ * @info: Structure consisting potential arguments
  * @name: env var name
  *
  * Return: value
  */
-char *_getenv(inf_x *inf, const char *name)
+char *_getenv(info_t *info, const char *name)
 {
-list_x *node = inf->env;
+list_x *node = info->env;
 char *a;
 while (node)
 {
@@ -35,53 +35,53 @@ return (NULL);
 
 /**
  * _shellsetenv - Initializes a new environment variable
- * @inf: Structure containing potential arguments. Used to maintain
+ * @info: Structure containing potential arguments. Used to maintain
  *
  * Return: 0
  */
-int _shellsetenv(inf_x *inf)
+int _shellsetenv(info_t *info)
 {
-if (inf->argc != 3)
+if (info->argc != 3)
 {
 _eputs("Incorrect number of arguements\n");
 return (1);
 }
-if (_setenv(inf, inf->argv[1], inf->argv[2]))
+if (_setenv(info, info->argv[1], info->argv[2]))
 return (0);
 return (1);
 }
 
 /**
  * _shellunsetenv - Removes an environment variable
- * @inf: Structure consisting potential arguments
+ * @info: Structure consisting potential arguments
  *
  * Return: 0
  */
-int _shellunsetenv(inf_x *inf)
+int _shellunsetenv(info_t *info)
 {
 int n;
-if (inf->argc == 1)
+if (info->argc == 1)
 {
 _eputs("Too few arguements.\n");
 return (1);
 }
-for (n = 1; n <= inf->argc; n++)
-_unsetenv(inf, inf->argv[n]);
+for (n = 1; n <= info->argc; n++)
+_unsetenv(info, info->argv[n]);
 return (0);
 }
 
 /**
  * fill_env_list - fills env linked list
- * @inf: Structure pertaining potential arguments
+ * @info: Structure pertaining potential arguments
  *
  * Return: 0
  */
-int fill_env_list(inf_x *inf)
+int fill_env_list(info_t *info)
 {
 list_x *node = NULL;
 size_t a;
 for (a = 0; environ[a]; a++)
 add_node_end(&node, environ[a], 0);
-inf->env = node;
+info->env = node;
 return (0);
 }

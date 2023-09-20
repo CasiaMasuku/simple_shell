@@ -2,15 +2,15 @@
 
 /**
  * is_cmd - determines if a file is an executable command
- * @inf: info struct
+ * @info: info struct
  * @path: path to the file
  *
  * Return: 1 if true
  */
-int is_cmd(inf_x *inf, char *path)
+int is_cmd(info_t *info, char *path)
 {
 struct stat st;
-(void)inf;
+(void)info;
 if (!path || stat(path, &st))
 return (0);
 if (st.st_mode & S_IFREG)
@@ -41,13 +41,13 @@ return (buf);
 
 /**
  * find_path - finds this cmd in the PATH string
- * @inf: info struct
+ * @info: info struct
  * @cmd: the cmd to find
  * @pthstring: the PATH string
  *
  * Return: full path of cmd
  */
-char *find_path(inf_x *inf, char *pthstring, char *cmd)
+char *find_path(info_t *info, char *pthstring, char *cmd)
 {
 int a = 0, curr_pos = 0;
 char *path;
@@ -55,7 +55,7 @@ if (!pthstring)
 return (NULL);
 if ((_strlen(cmd) > 2) && starts_with(cmd, "./"))
 {
-if (is_cmd(inf, cmd))
+if (is_cmd(info, cmd))
 return (cmd);
 }
 while (1)
@@ -70,7 +70,7 @@ else
 _strcat(path, "/");
 _strcat(path, cmd);
 }
-if (is_cmd(inf, path))
+if (is_cmd(info, path))
 return (path);
 if (!pthstring[a])
 break;
