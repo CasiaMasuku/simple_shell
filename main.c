@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <errno.h>
 #include "shell.h"
 
 /**
@@ -10,7 +5,7 @@
  * @ac: arg count
  * @av: arg vector
  *
- * Return: 0
+ * Return: 0 on success, 1 on error
  */
 int main(int ac, char **av)
 {
@@ -40,8 +35,8 @@ return (EXIT_FAILURE);
 }
 info->readfd = fd;
 }
-fill_env_list(info);
-read_hist(info);
+populate_env_list(info);
+read_history(info);
 hsh(info, av);
 return (EXIT_SUCCESS);
 }

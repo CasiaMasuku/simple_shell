@@ -2,8 +2,8 @@
 
 /**
  * get_environ - returns the string array copy of our environ
- * @info: Structure containing potential arguments
- *
+ * @info: Structure containing potential arguments. Used to maintain
+ *          constant function prototype.
  * Return: Always 0
  */
 char **get_environ(info_t *info)
@@ -18,47 +18,48 @@ return (info->environ);
 
 /**
  * _unsetenv - Remove an environment variable
- * @info: Structure containing potential arguments
+ * @info: Structure containing potential arguments. Used to maintain
+ *        constant function prototype.
+ *  Return: 1 on delete, 0 otherwise
  * @var: the string env var property
- *
- *  Return: 1 on delete
  */
 int _unsetenv(info_t *info, char *var)
 {
-list_x *node = info->env;
-size_t a = 0;
-char *n;
+list_t *node = info->env;
+char *p;
+size_t i = 0;
 if (!node || !var)
 return (0);
 while (node)
 {
-n = starts_with(node->string, var);
-if (n && *n == '=')
+p = starts_with(node->str, var);
+if (p && *p == '=')
 {
-info->env_changed = remov_node_at_index(&(info->env), a);
-a = 0;
+info->env_changed = delete_node_at_index(&(info->env), i);
+i = 0;
 node = info->env;
 continue;
 }
-node = node->nxt;
-a++;
+node = node->next;
+i++;
 }
 return (info->env_changed);
 }
 
 /**
- * _setenv - Initialize a new environment variable
- * @info: Structure containing potential arguments
+ * _setenv - Initialize a new environment variable,
+ *             or modify an existing one
+ * @info: Structure containing potential arguments. Used to maintain
+ *        constant function prototype.
  * @var: the string env var property
  * @value: the string env var value
- *
  *  Return: Always 0
  */
 int _setenv(info_t *info, char *var, char *value)
 {
+char *p;
 char *buf = NULL;
-list_x *node;
-char *n;
+list_t *node;
 if (!var || !value)
 return (0);
 buf = malloc(_strlen(var) + _strlen(value) + 2);
@@ -70,15 +71,15 @@ _strcat(buf, value);
 node = info->env;
 while (node)
 {
-n = starts_with(node->string, var);
-if (n && *n == '=')
+p = starts_with(node->str, var);
+if (p && *p == '=')
 {
-free(node->string);
-node->string = buf;
+free(node->str);
+node->str = buf;
 info->env_changed = 1;
 return (0);
 }
-node = node->nxt;
+node = node->next;
 }
 add_node_end(&(info->env), buf, 0);
 free(buf);
